@@ -20,7 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView imageView ;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,22 +33,33 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-         imageView = findViewById(R.id.image_Sword);
+        imageView = findViewById(R.id.image_Sword);
         Button btn1 = findViewById(R.id.btn1);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String[] foodItems = {"국밥🍲","치킨🍗","감자튀김🍟"};
-                final int[] imgRes = {R.drawable.sword1,R.drawable.sword4,R.drawable.sword5};
+                final String[] foodItems = {"국밥🍲", "치킨🍗", "감자튀김🍟"};
+                final int[] imgRes = {R.drawable.sword1, R.drawable.sword4, R.drawable.sword5};
+                final boolean[] checkArray = {true, false, false};
                 AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
                 dlg.setTitle("인공지능소프트웨어과 공지사항");
-                dlg.setSingleChoiceItems(foodItems, 0, new DialogInterface.OnClickListener() {
+                dlg.setMultiChoiceItems(foodItems, checkArray, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            btn1.setText(foodItems[which]);
+                            imageView.setImageResource(imgRes[which]);
+                        }
+                    }
+                });
+
+                /*                dlg.setSingleChoiceItems(foodItems, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         btn1.setText(foodItems[which]);
                         imageView.setImageResource(imgRes[which]);
                     }
-                });
+                });*/
 /*
                 dlg.setItems(foodItems, new DialogInterface.OnClickListener() {
                     @Override
@@ -69,12 +80,10 @@ public class MainActivity extends AppCompatActivity {
                                 imageView.setImageResource(R.drawable.sword4);
                                 break;
                         }*/
-                        imageView.setVisibility(VISIBLE);
-                    }
-                });
+                imageView.setVisibility(VISIBLE);
                 //dlg.setMessage("513호에 타과 학생이 만약에 있다면 즉시 전원을 내리고 귀를 막은 체 교수실로 달려가 문을 두드리세요");
                 dlg.setIcon(R.drawable.sword5);
-                dlg.setPositiveButton("닫기",null);
+                dlg.setPositiveButton("닫기", null);
 /*                dlg.setPositiveButton("알겠습니다.", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -91,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 });*/
                 dlg.show();
             }
-        });
-    }
 
+        });
+
+    }
 }
